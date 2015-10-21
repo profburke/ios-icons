@@ -57,9 +57,51 @@ which are required to build**.
 
 #### osx install:
 
+
     brew install lua --with-completion
     brew install luarocks libimobiledevice libplist
     luarocks install ios-icons
+
+
+**NOTE: The luarocks command above will not work.** ()*It will pull code from the original repository. If the original repository built properly,
+I wouldn't have had to make this fork.*)
+
+Instead, run make as follows:
+
+    make
+    
+Then run the sample app:
+
+    ./try_me.lua
+    
+Make sure `try_me.lua` has execute permission. If that doesn't mean anything to you, you
+can also try
+
+    lua try_me.lua
+
+The result should be a listing of info related to whatever app is first in your dock. For example,
+on my iPhone, I get the following output:
+
+    matt@stormageddon:~/Matt/Projects/ios-icons $ ./try_me.lua 
+    Info on the left-most docked app:
+
+      bundleIdentifier: com.agilebits.onepassword-ios
+                    id: com.agilebits.onepassword-ios
+                  role: icon
+                  name: 1Password
+
+    
+    
+The `makefile` assumes the following:
+
+1. You have the build tools installed (make, llvm, etc.)
+2. You have successfully installed `Lua`, `libimobiledevice` and 'libplist`.
+
+By the way, if you're curious about the `makefile`, I'm using the same compiler and linker
+flags that `luarocks` would use&mdash;I'm not certain they're the best choices, but I haven't
+really dug into it. As I mention above, push requests welcome!
+
+**As for Linux installs, try the following, but you're on your own. I haven't had time to try installing on Linux.**
 
 #### linux install:
 
