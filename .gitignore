@@ -1,9 +1,2 @@
-*.sublime*
-*tmp*
-*.idea
-old*
-dist
-*.log
-*.so
-build.log
-*.o
+.DS_Store
+*~
