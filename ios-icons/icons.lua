@@ -1,5 +1,18 @@
+local icons_mt = {}
+icons_mt.__tostring = function(i)
+   local result = "Icon Set\n\n"
+   for _, p in ipairs(i) do
+      result = result .. tostring(p)
+   end
+
+   result = result .. "\n"
+   return result
+end
+
 
 local icons = {}
+icons.__meta = icons_mt
+
 
 
 icons.flatten = function(tab)
