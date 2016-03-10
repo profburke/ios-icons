@@ -3,8 +3,14 @@ local cache = {}
 function cache.new(path)
     local c = { }
 
+    -- add a function to get keys
+    -- add delete function
+    -- what about a protocol so that we can have caches with a backend other than the file system?
+    -- (then what about Lua FUSE?)
+    
+    
     _,_,rc = os.execute("test -d " .. path)
-    if rc == 1 then os.execute("mkdir " .. path) end
+    if rc == 1 then os.execute("mkdir -p " .. path) end
 
     c.get = function(k, generate)
         local data = nil

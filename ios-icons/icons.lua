@@ -97,7 +97,46 @@ end
 
 
 
--- TODO: visit function
+icons.visit = function(tab, visitor)
+   assert(type(visitor) == 'function', 'visitor must be a function')
+   for _,v in pairs(tab) do
+      visitor(v)
+   end
+end
+
+
+local dockMax = 4
+local pageMax = 9
+-- TODO: handle fillPercent
+-- TODO: pass in page size as a parameter with a default (x = x or default)
+icons.reshape = function(tab, fillPercent)
+   local result = {}
+   local page = {}
+   local count = 1
+   local insert = table.insert
+   
+   for i,v in ipairs(tab) do
+      if i < dockMax then
+         insert(page, v)
+      elseif i == dockMax then
+         insert(page, v)
+         insert(result, page)
+         page = {}
+         count = 1
+      elseif count % pageMax ~= 0 then
+         insert(page, v)
+         count = count + 1
+      else
+         insert(page, v)
+         insert(result, page)
+         page = {}
+         count = 1
+      end
+   end
+   
+   return result
+end
+
 
 return icons
 
