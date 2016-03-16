@@ -107,5 +107,28 @@ ios_icon_imagedata(lua_State* L)
 }
 
 
+int
+ios_wallpaper(lua_State* L)
+{
+  char *pngdata;
+  uint64_t pngsize;
+  int rc;
+
+  SBConnection *c = popConnection(L);
+  lua_pop(L, 1);
+
+  if ((rc = sbservices_get_home_screen_wallpaper_pngdata(c->sbClient,
+                                                         &pngdata,
+                                                         &pngsize))
+      != SBSERVICES_E_SUCCESS) {
+    luaL_error(L, "error %d fetching wallpaper", rc);
+  }
+
+  lua_pushlstring(L, pngdata, pngsize);
+  free(pngdata);
+
+  return 1;
+}
+
 
 

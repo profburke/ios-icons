@@ -22,7 +22,8 @@ static const luaL_Reg sbconn_methods[] = {
   { "icons", ios_get_icons }, 
   { "get_icons", ios_get_icons }, 
   { "set_icons", ios_set_icons }, 
-  { "icon_image", ios_icon_imagedata }, 
+  { "icon_image", ios_icon_imagedata },
+  { "wallpaper", ios_wallpaper },
   { "__tostring", conn_tostring }, 
   { NULL, NULL }
 };
