@@ -24,11 +24,13 @@ icons.flatten = function(tab)
    end
    
    local function flatten(tab)
-      for _,v in ipairs(tab) do
+      for _,v in pairs(tab) do
          if isEntry(v) then
             insert(result, v)
          else
-            flatten(v)
+            if type(v) == 'table' then
+               flatten(v)
+            end
          end
       end
    end
