@@ -3,15 +3,11 @@
 
 2. flat:add_to_front -- aren't there now duplicates?
 
-3. get luajson and chroma (use luarocks ?)
-
 TODO:
 
 add a reshape method to icons
 
 add a swap method to icons
-
-find_all should support globs (or patterns)
 
 move the tiger eye libraries up
 
