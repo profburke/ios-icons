@@ -14,16 +14,12 @@ end
 
 local icon = {}
 
-icon.role = "icon"
 icon.__meta = icon_mt
-
-
 
 return icon
 
 
 
--- get rid of role
 -- extend type to handle these new "classes"
 -- add dump function to src
 

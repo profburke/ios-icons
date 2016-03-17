@@ -4,6 +4,7 @@
 #include <lua.h>
 #include "comms.h"
 
+static char *const kFolderTypeKey = "ios-icons.folder";
 static char *const kIconUserDataType = "ios-icons.icon";
 static char *const kAppleDisplayIDKey = "displayIdentifier";
 static char *const kAppleDisplayNameKey = "displayName";

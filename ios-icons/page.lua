@@ -1,5 +1,6 @@
 local format = string.format
 
+
 local page_mt = {}
 page_mt.__tostring = function(p)
    local result = "{\n\t"
@@ -17,10 +18,8 @@ page_mt.__tostring = function(p)
    return result
 end
 
+
 local page = {}
-
-page.role = "page"
 page.__meta = page_mt
-
 return page
 

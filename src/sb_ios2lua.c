@@ -44,12 +44,13 @@ void parseNode(lua_State* L, plist_t node, int depth)
   {
     case PLIST_DICT:
       lua_newtable(L);
-      addToTable(L, kIconUserDataType);
 
       id = getStringVal(node, kAppleDisplayIDKey);
       name = getStringVal(node, kAppleDisplayNameKey);
       bundleId = getStringVal(node, kAppleBundleIdKey);
       kids = dictEntry(node, kAppleIconListKey);
+
+      addToTable(L, groupSize(kids) > 0 ? kFolderTypeKey : kIconUserDataType);
 
       if (name == NULL && id == NULL) {
         lua_pushstring(L, "unexpected value reading icons!");
