@@ -1,5 +1,4 @@
 local image = {}
-local img_math = require "ios-icons.math"
 
 local cache = require "ios-icons.cache"
 cache = cache.new("./.ios-icon-colors")
@@ -21,6 +20,43 @@ local function hsv_to_color(h,s,v)
 end
 
 
+local function rgb_to_hsv(r, g, b)
+    local sorted, min, max, v, delta, h, s, v
+    
+    sorted = { r, g, b }
+    table.sort(sorted)
+    min = sorted[1]
+    max = sorted[3]
+    v = max
+
+    delta = max - min
+    if max == 0 then
+        s = 0
+        h = -1
+        return h,s,v
+    else
+        s = delta / max 
+    end
+
+    if r == max then
+        h = (g - b) / delta
+    elseif g == max then
+        h = 2 + (b - r) / delta
+    else
+        h = 4 + (r - g) / delta
+    end
+
+    h = h * 60
+    if h < 0 then h = h + 360 end
+
+    return h,s,v
+end
+
+
+return math
+
+
+
 local function graphics_magick(m_args)
     local cmdline = "gm " .. m_args
     local _,_,rc = os.execute(cmdline)
@@ -28,6 +64,9 @@ local function graphics_magick(m_args)
                               .. " - command was "
                               .. cmdline) end
 end
+
+-- TODO: need to identify webapps and cope with the fact that
+-- springboard will not return icons for them
 
 -- returns pseudo image object for provided icon
 function image.new(icon)
@@ -63,7 +102,7 @@ function image.new(icon)
         -- not the ute.
         hsv = function()
             r,g,b = icon.image.rgb()
-            return img_math.rgb_to_hsv(r,g,b)
+            return rgb_to_hsv(r,g,b)
         end,
         color = function()
             h,s,v = icon.image.hsv()
