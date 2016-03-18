@@ -11,9 +11,14 @@ end
 
 fn.select = function(tab, cond)
    assert(type(cond) == 'function', 'cond must be a predicate')
+   local t = tab
    local result = {}
 
-   for _,v in pairs(tab) do
+   if type(t) == 'folder' then
+      t = t.icons
+   end
+   
+   for _,v in pairs(t) do
       if type(v) == 'folder' then
          local fresult = fn.select(v.icons, cond)
          append(result, fresult)
