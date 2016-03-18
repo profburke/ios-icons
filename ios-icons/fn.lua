@@ -19,13 +19,14 @@ fn.select = function(tab, cond)
    end
    
    for _,v in pairs(t) do
-      if type(v) == 'folder' then
+      local vt = type(v)
+      if vt == 'folder' then
          local fresult = fn.select(v.icons, cond)
          append(result, fresult)
-      elseif type(v) == 'page' then
+      elseif vt == 'page' then
          local fresult = fn.select(v, cond)
          append(result, fresult)
-      elseif type(v) == 'icon' then
+      elseif vt == 'icon' then
          if cond(v) then
             insert(result, v)
          end
