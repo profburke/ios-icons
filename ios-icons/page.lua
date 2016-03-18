@@ -21,5 +21,17 @@ end
 
 local page = {}
 page.__meta = page_mt
+
+
+local oldtype = type
+function type(v)
+   if getmetatable(v) == page_mt then
+      return 'page'
+   else
+      return oldtype(v)
+   end
+end
+
+
 return page
 

@@ -1,5 +1,4 @@
--- should we create a separate type of object for a folder?
-
+local format = string.format
 local icon_mt = {}
 
 icon_mt.__tostring = function(i)
@@ -7,14 +6,24 @@ icon_mt.__tostring = function(i)
    if not i.icons then -- app
       result = i.name
    else -- folder
-      result = string.format('<%s>', i.name)
+      result = format('<%s>', i.name)
    end
    return result
 end
 
-local icon = {}
 
+local icon = {}
 icon.__meta = icon_mt
+
+local oldtype = type
+function type(v)
+   if getmetatable(v) == icon_mt then
+      return 'icon'
+   else
+      return oldtype(v)
+   end
+end
+
 
 return icon
 
