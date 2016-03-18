@@ -102,7 +102,14 @@ end
 icons.visit = function(tab, visitor)
    assert(type(visitor) == 'function', 'visitor must be a function')
    for _,v in pairs(tab) do
-      visitor(v)
+      local vt = type(v)
+      if vt == 'folder' then
+         icons.visit(v.icons, visitor)
+      elseif vt == 'page' then
+         icons.visit(v, visitor)
+      elseif vt == 'icon' then
+         visitor(v)
+      end
    end
 end
 
