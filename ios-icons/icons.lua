@@ -19,18 +19,15 @@ icons.flatten = function(tab)
    local insert = table.insert
    local result = {}
    
-   local function isEntry(e)
-      return (type(e) == 'table' and e.id)
-   end
-   
    local function flatten(tab)
       for _,v in pairs(tab) do
-         if isEntry(v) then
+         local vt = type(v)
+         if vt == 'icon' then
             insert(result, v)
-         else
-            if type(v) == 'table' then
-               flatten(v)
-            end
+         elseif vt == 'page' then
+            flatten(v)
+         elseif vt == 'folder' then
+            flatten(v.icons)
          end
       end
    end
