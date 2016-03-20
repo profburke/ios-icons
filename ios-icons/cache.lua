@@ -1,8 +1,9 @@
 local format = string.format
+local execute = os.execute
+local open = io.open
 local cache = {}
 
 -- add a function to get a list of keys
--- add delete function
 -- what about a protocol so that we can have caches with a backend other than the file system?
 -- (then what about Lua FUSE?)
 
@@ -13,8 +14,8 @@ function cache.new(path, keytransform)
    
    local c = { }
    
-   _,_,rc = os.execute('test -d ' .. path)
-   if rc == 1 then os.execute('mkdir -p ' .. path) end
+   _,_,rc = execute('test -d ' .. path)
+   if rc == 1 then execute('mkdir -p ' .. path) end
 
    c.keytransform = keytransform or function(k) return k end
    c.key = function(k)
@@ -28,11 +29,11 @@ function cache.new(path, keytransform)
       local key = c.key(k)
       if not key then error('invalid key: ' .. tostring(k)) end
       
-      local fd = io.open(key, "rb")
+      local fd = open(key, "rb")
       if fd then data = fd:read("*all") ; fd:close() end
       if not data and type(generate) == "function" then
          data = generate(k)
-         c.store(k, data)
+         c.set(k, data)
       end
       return data        
    end
@@ -41,9 +42,15 @@ function cache.new(path, keytransform)
       local key = c.key(k)
       if not key then error('invalid key: ' .. tostring(k)) end
       
-      local fd = io.open(key, "wb")
+      local fd = open(key, "wb")
       fd:write(v)
       fd:close()
+   end
+
+   c.remove = function(k)
+      local key = c.key(k)
+      _,_,rc = execute('/bin/rm -f ' .. key)
+      return rc
    end
    
    setmetatable(c, {
