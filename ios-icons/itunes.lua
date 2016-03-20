@@ -3,6 +3,7 @@ local itunes = {
     pause_between_downloads = 0.5,
 }
 
+local cache = require 'ios-icons.cache'
 local io = require "io"
 local json = require "json"
 local socket = require "socket"
@@ -25,57 +26,10 @@ end
 -- banstick or under what conditons said banstick would be
 -- used * (although I expect they do and barrier for entry 
 -- would be low)
-itunes.cache = {    
-    cachedir="./.iTunesJson",
+itunes.cache = cache.new('./.iTunesJson', function(i)
+                            if not i or not i.id then return nil end
+                            return i.id .. '_itunes.json' end)
 
-    -- dual purpose info and marker file for mkdir code
-    info_txt = "ios-icons lua app webcache\n",
-    info_path = function() return itunes.cache.cachedir 
-                                    .. "/info.txt" end,
-
-    -- mkdir, then become worthless (to allow repeated calls)
-    init = function()
-        itunes.cache.__meta.__init()
-        itunes.cache.init = function() end
-    end,
-
-    -- key (path) lookup
-    key =   function(icon) 
-                if not icon or not icon.id then return nil end
-                return itunes.cache.cachedir 
-                    .. "/" .. icon.id .. "_itunes.json" 
-            end,
-    -- get
-    getval = function(icon)
-        itunes.cache.init()
-        local data = nil
-        local key = itunes.cache.key(icon)
-        if not key then return nil end
-        local fd = io.open(key, "r")
-        if fd then data = fd:read("*all") ; fd:close() end
-        return data
-    end,
-    -- put
-    putval = function(icon, data)
-        local key = itunes.cache.key(icon)
-        if not key then return nil end
-        local fd = io.open(key, "w")
-        fd:write(data) ; fd:close()
-    end,
-
-    __meta = {
-        __init = function()
-            local fd = io.open(itunes.cache.info_path(), "w")
-            if not fd then
-                os.execute("mkdir " .. itunes.cache.cachedir)
-            end
-            fd = io.open(itunes.cache.info_path(), "w")
-            fd:write(itunes.cache.info_txt)
-            fd:close()
-        end,
-        __tostring = function() return itunes.cache.cachedir end,
-    }
-}
 
 local rate_limit = function()
     local last_fetch = itunes.last_fetch
@@ -88,13 +42,13 @@ end
 
 local add_itunes_data = function(icon)  
     local raw = nil ; local cache = itunes.cache
-    if cache then raw = cache.getval(icon) end
+    if cache then raw = cache.get(icon) end
 
     if not raw then
         rate_limit()
         local url = itunes_url(icon)
         raw = http.request(itunes_url(icon))
-        if cache then cache.putval(icon, raw) end
+        if cache then cache.set(icon, raw) end
     end
 
     if raw then
