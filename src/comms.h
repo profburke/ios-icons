@@ -9,6 +9,8 @@ struct lua_State;
 LUALIB_API int ios_connect(lua_State *L);
 LUALIB_API int ios_disconnect(lua_State *L);
 LUALIB_API int conn_tostring(lua_State *L);
+LUALIB_API int ios_devicename(lua_State *L);
+
 int ios_errno(lua_State *L);
 extern int idevice_errno;
 

@@ -71,20 +71,40 @@ LUALIB_API int ios_disconnect(lua_State *L)
   return 1;
 }
 
-int conn_tostring(lua_State *L) {
-  char* deviceName;
 
+void putDeviceNameOnStack(lua_State *L, int isToString) {
+  char* deviceName;
   SBConnection* c = (SBConnection*)luaL_checkudata(L, 1, kSpringboardConnID);
-  if (c->lockdownClient == NULL) { lua_pushstring(L, "disconnected"); }
-  else
-  {
+
+  if (c->lockdownClient == NULL) {
+    lua_pushstring(L, "disconnected");
+  } else {
     if ( lockdownd_get_device_name(c->lockdownClient, 
-            &deviceName) == LOCKDOWN_E_SUCCESS) 
-         { lua_pushfstring(L, "ios[%s]", deviceName); }
-    else { lua_pushstring(L, "unknown"); }
+                                   &deviceName) == LOCKDOWN_E_SUCCESS) {
+      if (isToString) {
+        lua_pushfstring(L, "ios[%s]", deviceName);
+      } else {
+        lua_pushstring(L, deviceName);
+      }
+    } else {
+      lua_pushstring(L, "unknown");
+    }
   }
+}
+
+
+int conn_tostring(lua_State *L) {
+  putDeviceNameOnStack(L, 1);
   return 1;
 }
+
+
+int ios_devicename(lua_State *L)
+{
+  putDeviceNameOnStack(L, 0);
+  return 1;
+}
+
 
 int ios_errno(lua_State *L)
 {
