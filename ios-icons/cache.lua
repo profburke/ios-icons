@@ -1,6 +1,9 @@
 local format = string.format
 local execute = os.execute
 local open = io.open
+local popen = io.popen
+local insert = table.insert
+
 local cache = {}
 
 -- add a function to get a list of keys
@@ -51,6 +54,16 @@ function cache.new(path, keytransform)
       local key = c.key(k)
       _,_,rc = execute('/bin/rm -f ' .. key)
       return rc
+   end
+
+   c.keys = function()
+      local results = {}
+      local p = popen('ls -1 ' .. path, 'r')
+      for f in p:lines() do
+         insert(results, f)
+      end
+      p:close()
+      return results
    end
    
    setmetatable(c, {
