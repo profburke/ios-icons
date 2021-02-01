@@ -1,4 +1,6 @@
 #ifndef SAVE_LOAD_H
+#define SAVE_LOAD_H
+
 #include <lua.h>
 
 int ios_save_icons_plist(lua_State *L);

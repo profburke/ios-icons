@@ -1,4 +1,5 @@
 #ifndef COMMS_H
+#define COMMS_H
 
 #include <libimobiledevice/libimobiledevice.h>
 #include <libimobiledevice/lockdown.h>
@@ -21,7 +22,5 @@ typedef struct _sbconn {
   sbservices_client_t sbClient;
 } SBConnection;
 
-
-#define COMMS_H 1
 #endif
 
