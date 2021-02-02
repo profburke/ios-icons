@@ -3,7 +3,7 @@ local folder_mt = {}
 
 
 folder_mt.__tostring = function(f)
-   return format('<%s>', f.name)
+   return format('<folder: %s>', f.name)
 end
 
 

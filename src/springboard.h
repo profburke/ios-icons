@@ -8,9 +8,11 @@
 static char *const kAppleBundleIdKey = "bundleIdentifier";
 static char *const kAppleDisplayIDKey = "displayIdentifier";
 static char *const kAppleDisplayNameKey = "displayName";
+static char *const kAppleElementsKey = "elements";
 static char *const kAppleIconListKey = "iconLists";
 static char *const kAppleIconTypeKey = "iconType";
 static char *const kConnIDName = "connection";
+static char *const kElementsKey = "elements";
 static char *const kFolderTypeKey = "ios-icons.folder";
 static char *const kIconCollectionTypeKey = "ios-icons.icons";
 static char *const kIconId = "id";

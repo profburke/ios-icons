@@ -48,7 +48,7 @@ plist_t luaToStoredPListItem(lua_State* L)
 
   lua_getfield(L, -1, kIconName);
   lua_getfield(L, -2, kIconId);
-
+  
   pageItem = retrieveIconFromRegistry(L, 
                     lua_tostring(L, -2),
                     lua_tostring(L, -1));

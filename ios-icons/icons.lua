@@ -1,8 +1,14 @@
 local icons_mt = {}
 icons_mt.__tostring = function(i)
    local result = "Icon Set\n\n"
-   for _, p in ipairs(i) do
-      result = result .. tostring(p)
+
+   -- TODO: what if there are no icons in the dock? Is the first page still
+   --       at index 2?
+   
+   result = result .. "Dock " .. tostring(i[1])
+
+   for idx = 2,#i do
+      result = result .. "Page " .. idx - 1 .. " " .. tostring(i[idx])
    end
 
    result = result .. "\n"

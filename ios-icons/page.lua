@@ -3,18 +3,18 @@ local format = string.format
 
 local page_mt = {}
 page_mt.__tostring = function(p)
-   local result = "{\n\t"
+   local result = "{\n"
    local count = 0
    for _, i in ipairs(p) do
-      result = result .. format('%-20s ', tostring(i))
+      result = result .. "  " .. tostring(i) .. "\n"
       count = count + 1
       if count % 4 == 0 then
-         result = result .. "\n\t"
+         result = result .. "\n"
          count = 0
       end
    end
 
-   result = result .. "\n}\n"
+   result = result .. "}\n"
    return result
 end
 

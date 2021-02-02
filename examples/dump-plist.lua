@@ -1,12 +1,17 @@
 #!/usr/bin/env lua
 
-if #arg ~= 1 then
-   print "usage: dump-plist <filepath>"
-   os.exit()
+status, ios = pcall(require, 'ios-icons')
+if (not status) then
+   print "Could not find the 'ios-icons' library."
+   print "Check to verify it was installed."
+   os.exit(1)
 end
 
-ios = require 'ios-icons'
-conn = ios.connect()
-icons = conn:icons()
+status, conn = pcall(ios.connect)
+if (not status) then
+   print "Could not detect a connected iOS device."
+   os.exit(1)
+end
 
-icons:save_plist(arg[1])
+icons = conn:icons()
+icons:save_plist 'springboard.plist'
